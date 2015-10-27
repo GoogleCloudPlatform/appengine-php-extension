@@ -16,8 +16,10 @@
 // All Rights Reserved.
 //
 //
-// The URLFetch service downloads external HTTP URLs using the FastNet
-// service, which lets us cache URLs with all of the other Google services
+// The URLFetch service downloads external HTTP URLs using Harpoon and some
+// internal URLs using HTTPOverRpc.
+// See:
+//   https://cloud.google.com/appengine/docs/python/urlfetch/
 
 syntax = "proto2";
 
@@ -70,21 +72,20 @@ message URLFetchRequest {
   // like 5, but hides the redirect chain from the end user and any
   // eventual successful fetch results in a 200 OK.
   //
-  // NOTE(user): For urlfetch requests served by the HTTPOverRPC proxy (as
-  // opposed to fastnet), this field is always ignored (i.e. no redirects are
-  // performed)
+  // NOTE(user): For historical reasons this must be set to false to permit
+  // the use of HttpOverRpc back to App Engine. b/22785370
   optional bool FollowRedirects = 7 [default=true];
 
   // The timeout for the request in seconds.
   optional double Deadline = 8;
 
-  // If true, FastNet will drop the connection and fail the request if it
+  // If true, Harpoon will drop the connection and fail the request if it
   // encounters an invalid certificate.
   // WARNING: Do not rely on the default value of this field for certificate
   // validation. There is an appserver flag that applies if the default value
-  // is used (fastnet_validate_certificate_default) which is currently (as of
-  // June 2013) set to false. If you want certificate validation then always set
-  // the value of this field to true.
+  // is used (urlfetch_harpoon_failonsslcertificateerror_default) which is
+  // currently (as of August 2015) set to false. If you want certificate
+  // validation then always set the value of this field to true. b/1829826
   optional bool MustValidateServerCertificate = 9 [default=true];
 }
 

@@ -1,4 +1,4 @@
-// Copyright 2015 Google Inc. All Rights Reserved.
+// Copyright 2016 Google Inc. All Rights Reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -38,6 +38,7 @@ static int disabled_rename(php_stream_wrapper* wrapper,
   // Rename never sets options to a non zero value, so we will always print this
   // warning.
   show_php_error("rename" TSRMLS_CC);
+  errno = EROFS;
   return 0;
 }
 
@@ -48,6 +49,7 @@ static int disabled_unlink(php_stream_wrapper* wrapper,
   if (options & REPORT_ERRORS) {
     show_php_error("unlink" TSRMLS_CC);
   }
+  errno = EROFS;
   return 0;
 }
 
@@ -59,6 +61,7 @@ static int disabled_mkdir(php_stream_wrapper* wrapper,
   if (options & REPORT_ERRORS) {
     show_php_error("mkdir" TSRMLS_CC);
   }
+  errno = EROFS;
   return 0;
 }
 
@@ -71,6 +74,7 @@ static php_stream* disabled_write_stream_opener(php_stream_wrapper* wrapper,
                       path,
                       E_WARNING,
                       "The local filesystem is readonly, open failed");
+    errno = EROFS;
     return NULL;
   }
 
@@ -90,6 +94,7 @@ static int disabled_rmdir(php_stream_wrapper* wrapper,
   if (options & REPORT_ERRORS) {
     show_php_error("rmdir" TSRMLS_CC);
   }
+  errno = EROFS;
   return 0;
 }
 

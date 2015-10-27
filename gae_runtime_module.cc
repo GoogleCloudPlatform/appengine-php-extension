@@ -621,7 +621,7 @@ static void load_redirect_paths(INIT_FUNC_ARGS) {
           // Do not allow users to redirect the base directory, as it stops the
           // app from working.
           if (paths[0] != kBaseDirectory) {
-            split_paths.push_back(make_pair(paths[0], paths[1]));
+            split_paths.push_back(std::make_pair(paths[0], paths[1]));
           } else {
             php_error_docref(NULL TSRMLS_CC, E_ERROR,
                 "Cannot redirect the path ~/, redirection ignored.");
@@ -655,9 +655,8 @@ static void load_redirect_paths(INIT_FUNC_ARGS) {
 
   // Sort from longest path to shortest, so that when matching redirect paths
   // we will match the longest matching path first.
-  sort(split_paths.begin(),
-       split_paths.end(),
-       sort_string_key_lengths<pair<string, string> >);
+  std::sort(split_paths.begin(), split_paths.end(),
+            sort_string_key_lengths<pair<string, string> >);
 
   for (int i = 0; i < split_paths.size(); ++i) {
     const string& key = split_paths[i].first;
