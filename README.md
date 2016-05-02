@@ -4,14 +4,14 @@ This repository contains the GAE PHP runtime extension, which enables emulation 
 
 ## Building
 
-1. Install [Protocol Buffer complier](https://developers.google.com/protocol-buffers/) for your platform.
+1. Install [Protocol Buffer complier](https://developers.google.com/protocol-buffers/) on your platform, following the [C++ Installation Instructions](https://github.com/google/protobuf/blob/master/src/README.md).
 
 1. Generate C++ source and header files for [remote_api.proto](remote_api.proto) and [urlfetch_service.proto](urlfetch_service.proto).
 
         protoc --cpp_out=. remote_api.proto
         protoc --cpp_out=. urlfetch_service.proto
 
-1. Familiarize yourself with the [PHP extension building](http://www.phpinternalsbook.com/build_system/building_extensions.html#building-extensions-using-phpize) process, and run the following commands. Set ``<include_path>`` and ``<lib_path>`` to where you have installed the protobuf headers and libraries in the previous step.
+1. Familiarize yourself with the [PHP extension building](http://www.phpinternalsbook.com/build_system/building_extensions.html#building-extensions-using-phpize) process, and run the following commands. Set ``<include_path>`` and ``<lib_path>`` to the absolute path to the protobuf headers and libraries installed in the previous step, usually ``/usr/local/include`` and ``/usr/local/lib``.
 
         phpize
         ./configure --enable-gae --with-protobuf_inc=<include_path> --with-protobuf_lib=<lib_path>
