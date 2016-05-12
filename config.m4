@@ -13,14 +13,15 @@ dnl See the License for the specific language governing permissions and
 dnl limitations under the License.
 dnl
 
-PHP_ARG_ENABLE(gae, weather to enable Google App Engine support,
-[  --enable-gae            Enable Google App Engine support.)])
-
 PHP_ARG_WITH(protobuf_inc, for protobuf headers,
-[  --with-protobuf_inc[=DIR]       Define the location of the protobuf headers.)])
+[  --with-protobuf_inc[=DIR]       Define the location of the protobuf headers.])
 
 PHP_ARG_WITH(protobuf_lib, for protobuf libraries,
-[  --with-protobuf_lib[=DIR]       Define the location of the protobuf libraries.)])
+[  --with-protobuf_lib[=DIR]       Define the location of the protobuf libraries.])
+
+dnl Must specify as the last PHP_ARG_* for $ext_shared to work correctly below.
+PHP_ARG_ENABLE(gae, weather to enable Google App Engine support,
+[  --enable-gae            Enable Google App Engine support.])
 
 if test "$PHP_GAE" != "no"; then
   PHP_REQUIRE_CXX()
